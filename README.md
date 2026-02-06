@@ -1,4 +1,4 @@
-# authentication
+# Authentication with Nodejs
 Basic implementation of authentication for a node js backend
 
 ## About The Project
@@ -10,14 +10,27 @@ on solely authentication.
 Requires Docker to be setup on your system
 1. Navigate to project directory.
 2. clone repo
+    ```
     git clone https://github.com/ignacioparraparra/authentication.git
+    ```
+   Create .env in project directory and set
+    ```
+    ACCESS_TOKEN_SECRET="STRINGOFCHARS"
+    REFRESH_TOKEN_SECRET="STRINGOFCHARS"
+    PORT=8980
+    ```
 3. Navigate to project folder and build image
+    ```
     docker compose build
+    ```
 4. Start the server
+    ```
     docker compose up
+    ```
 To shutdown, navigate to second terminal in project directory and run.
+    ```
     docker compose down
-
+    ```
 ## Usage 
 Once server is running, use your prefered API test tool. 
 If using VSCode Rest Client, you can navigate to test.rest for preconfigured requests.
