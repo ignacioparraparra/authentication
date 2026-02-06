@@ -5,9 +5,7 @@ const app = express()
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
 // the longer the harder to break, but consumes time
-const saltRounds = 10
-const correctPass = "password"
-const wrongPass = "nullpass"
+const saltRounds = 1
 const testHash = "$2b$10$sYxy7cOwxKLc9JYt/Bb7SeDx80esqT34z7tpo5EtK4zIGExiULFwe"
 
 // Would come from db in prod
@@ -118,4 +116,7 @@ function generateAccessToken(user) {
 }
 
 
-app.listen(9890)
+app.listen(process.env.PORT, (err) => {
+    if (err) return console.log('Server startup failed')
+    console.log(`Server listening on port ${process.env.PORT}`)
+})

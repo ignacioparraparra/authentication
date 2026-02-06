@@ -1,11 +1,11 @@
-POST http://localhost:9890/token
+POST http://localhost:8980/token
 Content-Type: application/json
 
 {
     "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcwMzY1NjU1fQ.5p_6NP5oqTjq12I_9E909xzSf7uMHLXeNSgZLsti-AE"
 }
 ###
-POST http://localhost:9890/login
+POST http://localhost:8980/login
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:9890/logout
+DELETE http://localhost:8980/logout
 Content-Type: application/json
 
 {
