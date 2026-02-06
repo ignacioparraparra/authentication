@@ -1,4 +1,18 @@
 # authentication
 Basic implementation of authentication for a node js backend
 
-{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcwMzQyMzIwfQ.G5BnUyCBlIVNKIFmsAA1higeFdJ9xTaMEwlYrGJi0HI"}
+## Workshop Prereqs
+    Shell Commands
+        npm init -y
+        npm i express jsonwebtoken bcrypt dotenv
+        npm i --save-dev nodemon
+    Nodemon Config
+        package.json -> "scripts": { "start" : "nodemon server.js" }
+
+## Summary of Content
+    1. Hello World
+    2. Creating sign up & login endpoints
+    3. Generating access JWTs
+    4. Securing endpoints with middleware
+    5. Implementing bcrypt for hash + salt
+    6. Refreshing access tokens with refresh token
