@@ -1,2 +1,4 @@
 # authentication
 Basic implementation of authentication for a node js backend
+
+{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcwMzQyMzIwfQ.G5BnUyCBlIVNKIFmsAA1higeFdJ9xTaMEwlYrGJi0HI"}
