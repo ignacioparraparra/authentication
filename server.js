@@ -28,13 +28,17 @@ posts = [
 
 app.use(express.json())
 
-// gets post
+/*
+Secure endpoint that returns specific users post
+*/
 app.get('/post', authenticateToken, (req, res) => {
     // in prod this would be DB query
     res.json(posts.filter(post => post.username === req.user.name))
 })
 
-// Uses refresh token to generate new access tokens
+/*
+Generates new access token by verifying refresh token
+*/
 app.post('/token', (req, res) => {
     // refreshing token
     const refreshToken = req.body.token
@@ -48,6 +52,10 @@ app.post('/token', (req, res) => {
     })
 })
 
+/* 
+Creates user with req.body params, adds salt and hashes password.
+Returns details, in prod store details in db at this point
+*/
 app.post('/signup', (req, res) => {
     const username = req.body.username
     const password = req.body.password
@@ -59,6 +67,11 @@ app.post('/signup', (req, res) => {
     });
 })
 
+/*
+Takes username and password from req.body params.
+Compares hash with hash in "db", if match issue JWT
+User in now authenticated, returns access and refresh token
+*/
 app.post('/login', (req, res) => {
     // fetch user from db
     const username = req.body.username
@@ -89,12 +102,19 @@ app.post('/login', (req, res) => {
     return checkUser(user, password)
 })
 
+/*
+Logs user out by deleting refresh token from "db", revoking auth
+*/
 app.delete('/logout', (req, res) => {
     // would delete from a db in prod
     refreshTokens = refreshTokens.filter(token => token !== req.body.token)
     res.sendStatus(204)
 })
 
+/*
+Takes Bearer Token from header and verifies if JWT is valid.
+If valid, attach user details to req and go to next
+*/
 function authenticateToken(req, res, next) {
     // get Bearer : token from request header and store in token
     const authHeader = req.headers['authorization']
@@ -110,7 +130,9 @@ function authenticateToken(req, res, next) {
     })
 }
 
-// short lived token
+/*
+Generates new access token, short lived
+*/ 
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1m'})
 }
