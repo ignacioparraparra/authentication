@@ -91,6 +91,12 @@ app.post('/login', (req, res) => {
     return checkUser(user, password)
 })
 
+app.delete('/logout', (req, res) => {
+    // would delete from a db in prod
+    refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+    res.sendStatus(204)
+})
+
 function authenticateToken(req, res, next) {
     // get Bearer : token from request header and store in token
     const authHeader = req.headers['authorization']
