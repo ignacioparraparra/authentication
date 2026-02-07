@@ -6,6 +6,9 @@ Mini project showing a way of implementing JWT and bcrypt for a Nodejs backend.
 This project does not include a database as the purpose is to focus this workshop
 on solely authentication. 
 
+## Built With
+_Nodejs, Express, Bcrypt, JSONWebTokens, Docker_
+
 ## Building and Running
 Requires Docker to be setup on your system
 1. Navigate to project directory.
