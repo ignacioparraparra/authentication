@@ -2,7 +2,7 @@ POST http://localhost:8980/token
 Content-Type: application/json
 
 {
-    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcwNDAyMzM3fQ.8GY0QxUwQVrYzcKmheNh19ERqFM0h0yUSYoygHZoc4U"
+    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcwNDIzOTcwfQ.5pKI2ZIJZl6eumuVAKLAayNfTee7z37FyKY090grkS4"
 }
 ###
 POST http://localhost:8980/login
@@ -23,4 +23,4 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8980/post
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcwNDAyMDcwLCJleHAiOjE3NzA0MDIxMzB9.Wx-qH3NJYAZ8-LW4yM6GOZDCmgBo2a8IDLiAEJ7eRpg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcwNDI0MDU0LCJleHAiOjE3NzA0MjQxMTR9.KgfNIfuGezq1EkadjnQG5BcpJVIiHkLFeusPVXT60gE

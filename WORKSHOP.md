@@ -1,6 +1,7 @@
 ## Workshop Prereqs
     Shell Commands
         sudo apt install npm nodejs
+    Install Docker
 
 ## Project Dependencies
     Shell commands in project directory 
@@ -8,7 +9,7 @@
         npm i express jsonwebtoken bcrypt dotenv
         npm i --save-dev nodemon
     Nodemon Config in package.json, allows us to run server with npm run dev
-        "scripts": { "dev" : "nodemon server.js" }
+        "scripts": { "dev" : "nodemon server.js", "start" : "node server.js" }
 
 ## Summary of Content
     1. Hello World
