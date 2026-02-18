@@ -18,8 +18,8 @@ Requires Docker to be setup on your system
     ```
    Create .env in project directory and set
     ```
-    ACCESS_TOKEN_SECRET="STRINGOFCHARS"
-    REFRESH_TOKEN_SECRET="STRINGOFCHARS"
+    ACCESS_TOKEN_SECRET="512_Byte_long_string_thats_base64_encoded"
+    REFRESH_TOKEN_SECRET="512_Byte_long_string_thats_base64_encoded"
     PORT=8980
     ```
 3. Navigate to project folder and build image
