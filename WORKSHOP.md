@@ -1,7 +1,10 @@
 ## Workshop Prereqs
     Shell Commands
-        sudo apt install npm nodejs
+        sudo apt install npm nodejs git
+    If Windows or MacOS you can navigate to
+        https://nodejs.org/en/download/
     Install Docker
+        https://docs.docker.com/engine/install/
 
 ## Project Dependencies
     Shell commands in project directory 
