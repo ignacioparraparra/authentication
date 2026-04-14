@@ -22,12 +22,14 @@ router.post('/login', async (req, res) => {
     // also need to collect password
     // and compare with hash in db
     // would need to grab hash from db
-    const db_hash = await sql`
+    const [db_user] = await sql`
         SELECT password 
         FROM users
         WHERE username = ${username}
     `
-    const match = await bcrypt.compare(password, db_hash[0].password)
+    if (!db_user)
+        return res.sendStatus(403)
+    const match = await bcrypt.compare(password, db_user.password)
 
     // login
     if(match) {
@@ -38,15 +40,11 @@ router.post('/login', async (req, res) => {
         // login will generate a access & refresh token
         // for testing, prod would put this in db
         // refreshTokens.push(refreshToken)
-        const db_user = await sql`
+        await sql`
             UPDATE users 
             SET refresh_token = ${refreshToken}
             WHERE username = ${username}
-
-            returning *
         `
-        if (!db_user)
-            return res.sendStatus(404)
 
         return res.json({accessToken : accessToken, refreshToken : refreshToken})
     }
