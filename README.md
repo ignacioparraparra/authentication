@@ -66,5 +66,8 @@ Create database user by running,
 Grant user permission by running, `GRANT CREATE ON SCHEMA public TO <username>;`
 
 Run `sudo -u postgres psql` OR `postgres psql` to enter database environment
+(To pass optional flags into database environment, run `psql -h localhost -p 5432 -U postgres -d mydb
+`)
+
 
 If you need to change the password, change the default user's password by running `ALTER USER <username> PASSWORD '<new_password>';`
