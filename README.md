@@ -52,3 +52,22 @@ If using VSCode Rest Client, you can navigate to test.rest for preconfigured req
 4. Wait for 1m, /post should now be forbidden as ACCESS TOKEN has expired
 4. POST REFRESH TOKEN at /logout to revoke JWT
 5. Attempt to get new ACCESS TOKEN at /token, should be forbidden
+
+# Database Integration
+
+Ubuntu/Debian ```apt install postgresql```
+
+MacOS & Windows: https://www.postgresql.org/download/
+
+Create database user by running, 
+`CREATE USER <username> WITH PASSWORD '<password>';
+`
+
+Grant user permission by running, `GRANT CREATE ON SCHEMA public TO <username>;`
+
+Run `sudo -u postgres psql` OR `postgres psql` to enter database environment
+(To pass optional flags into database environment, run `psql -h localhost -p 5432 -U postgres -d mydb
+`)
+
+
+If you need to change the password, change the default user's password by running `ALTER USER <username> PASSWORD '<new_password>';`
