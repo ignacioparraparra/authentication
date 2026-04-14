@@ -118,7 +118,7 @@ router.post('/token', async (req, res) => {
     `;
 
     if (!validRefreshToken)
-        return res.status('403').send('token not valid');
+        return res.status(403).send('token not valid');
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).send('Failed to verify')
