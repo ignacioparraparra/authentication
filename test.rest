@@ -2,7 +2,7 @@ POST http://localhost:8980/token
 Content-Type: application/json
 
 {
-    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcwNDIzOTcwfQ.5pKI2ZIJZl6eumuVAKLAayNfTee7z37FyKY090grkS4"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcxNDU5ODAyfQ.excGGUjStsBFW4vHDCIalgHEKHWEtwyJH40q6Y4A8Os"
 }
 ###
 POST http://localhost:8980/login
@@ -18,9 +18,9 @@ DELETE http://localhost:8980/logout
 Content-Type: application/json
 
 {
-    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcwNDAyMzM3fQ.8GY0QxUwQVrYzcKmheNh19ERqFM0h0yUSYoygHZoc4U"
+    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcxNDU5ODAyfQ.excGGUjStsBFW4vHDCIalgHEKHWEtwyJH40q6Y4A8Os"
 }
 
-###
+###eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 
 GET http://localhost:8980/post
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcwNDI0MDU0LCJleHAiOjE3NzA0MjQxMTR9.KgfNIfuGezq1EkadjnQG5BcpJVIiHkLFeusPVXT60gE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQm9iIiwiaWF0IjoxNzcxNDU5OTc1LCJleHAiOjE3NzE0NjAwMzV9.XwAlg6AqN2gIKngEwDhjcFf9fmBWJ7x9NHxhHB_QozQ
