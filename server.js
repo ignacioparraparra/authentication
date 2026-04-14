@@ -1,4 +1,5 @@
 require('dotenv').config()
+const { initializeDb } = require('./database/client');
 const express = require('express')
 const app = express()
 
@@ -14,4 +15,5 @@ app.use('/', postRoutes)
 app.listen(process.env.PORT, (err) => {
     if (err) return console.log(`Server startup failed ${err}`)
     console.log(`Server listening on port ${process.env.PORT}`)
+    initializeDb();
 })
