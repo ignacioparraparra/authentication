@@ -19,5 +19,4 @@ async function initializeDb() {
   )`
 }
 
-module.exports = sql;
-module.exports = {initializeDb};
+module.exports = {sql, initializeDb};

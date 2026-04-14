@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
         FROM users
         WHERE username = ${username}
     `
-    const match = await bcrypt.compare(password, db_hash)
+    const match = await bcrypt.compare(password, db_hash[0].password)
 
     // login
     if(match) {
@@ -39,11 +39,9 @@ router.post('/login', async (req, res) => {
         // for testing, prod would put this in db
         // refreshTokens.push(refreshToken)
         const db_user = await sql`
-            INSERT INTO users (
-                refresh_token
-            ) VALUES (
-                ${refreshToken}
-            )
+            UPDATE users 
+            SET refresh_token = ${refreshToken}
+            WHERE username = ${username}
 
             returning *
         `
@@ -67,7 +65,7 @@ router.delete('/logout', async (req, res) => {
         SET refresh_token = NULL
         WHERE refresh_token = ${req.body.token}
     `
-    if (!result)
+    if (result.count === 0)
         return res.sendStatus(404)
     res.sendStatus(204)
 })
@@ -76,31 +74,32 @@ router.delete('/logout', async (req, res) => {
 Creates user with req.body params, adds salt and hashes password.
 Returns details, in prod store details in db at this point
 */
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     const username = req.body.username
     const password = req.body.password
-    // auto gen salt and hash
-    bcrypt.hash(password, saltRounds, function(err, hash) {
-        // Store hash and user in your password DB.
-        if (err) return res.sendStatus(500)
+    try {
+        // 1. Hash the password using the Promise-based API
+        const hash = await bcrypt.hash(password, saltRounds);
 
-        async function createUser() {
-            try {
-                await sql `
-                INSERT INTO users (name, password) VALUES (${username}, ${hash})
-                RETURNING name`       
-                return res.send('User Created');
-            } catch (err) {
-                if (err.code === '23505') {
-                    return res.send('Username Taken')
-                } else {
-                    return res.send(err);
-                }
-            }
+        // 2. Insert into the database
+        await sql`
+            INSERT INTO users (username, password) 
+            VALUES (${username}, ${hash})
+        `;
+
+        // 3. Success response
+        return res.status(201).send('User Created');
+
+    } catch (err) {
+        // 4. Handle specific Postgres unique violation (duplicate username)
+        if (err.code === '23505') {
+            return res.status(409).send('Username Taken');
         }
-
-    createUser();
-    });
+        
+        // 5. Generic server error
+        console.error(err);
+        return res.status(500).send('Internal Server Error');
+    }
 })
 
 /*
@@ -117,8 +116,8 @@ router.post('/token', async (req, res) => {
         WHERE users.refresh_token = ${refreshToken}
     `;
 
-    if (!validRefreshToken)
-        return res.status('403').send('token not valid');
+    if (!validRefreshToken.length)
+        return res.status(403).send('token not valid');
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).send('Failed to verify')
