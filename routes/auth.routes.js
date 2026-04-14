@@ -2,14 +2,14 @@ require('dotenv').config()
 const { sql } = require("../database/client")
 const express = require('express')
 const router = express.Router()
+const { sql } = require('../database/client')
 
+const sql = require('../database/client.js')
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
 // the longer the harder to break, but consumes time
 const saltRounds = 1
-const testHash = "$2b$10$sYxy7cOwxKLc9JYt/Bb7SeDx80esqT34z7tpo5EtK4zIGExiULFwe"
 // Would come from db in prod
-let refreshTokens = []
 
 /*
 Takes username and password from req.body params.
@@ -86,19 +86,43 @@ router.post('/signup', (req, res) => {
     bcrypt.hash(password, saltRounds, function(err, hash) {
         // Store hash and user in your password DB.
         if (err) return res.sendStatus(500)
-        res.json({username, hash})
+
+        async function createUser() {
+            try {
+                await sql `
+                INSERT INTO users (name, password) VALUES (${username}, ${hash})
+                RETURNING name`       
+                return res.send('User Created');
+            } catch (err) {
+                if (err.code === '23505') {
+                    return res.send('Username Taken')
+                } else {
+                    return res.send(err);
+                }
+            }
+        }
+
+    createUser();
     });
 })
 
 /*
 Generates new access token by verifying refresh token
 */
-router.post('/token', (req, res) => {
+router.post('/token', async (req, res) => {
     // refreshing token
     const refreshToken = req.body.token
     if (refreshToken == null) return res.sendStatus(401)
     // do we have a valid refreshToken in db
-    if (!refreshTokens.includes(refreshToken)) return res.status(403).send('token not valid')
+    // if (!refreshTokens.includes(refreshToken)) return res.status(403).send('token not valid')
+    const validRefreshToken = await sql`
+        SELECT * FROM users
+        WHERE users.refresh_token = ${refreshToken}
+    `;
+
+    if (!validRefreshToken)
+        return res.status('403').send('token not valid');
+
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).send('Failed to verify')
         const accessToken = generateAccessToken({name : user.name})
