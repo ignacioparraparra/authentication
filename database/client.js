@@ -13,8 +13,9 @@ async function initializeDb() {
   console.log("Initializing DB");
   await sql`CREATE TABLE IF NOT EXISTS users (
     id SERIAL NOT NULL PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    refresh_token TEXT
   )`
 }
 

@@ -1,4 +1,5 @@
 require('dotenv').config()
+const { sql } = require("../database/client")
 const express = require('express')
 const router = express.Router()
 
@@ -15,7 +16,7 @@ Takes username and password from req.body params.
 Compares hash with hash in "db", if match issue JWT
 User in now authenticated, returns access and refresh token
 */
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     // fetch user from db
     const username = req.body.username
     const password = req.body.password
@@ -23,34 +24,54 @@ router.post('/login', (req, res) => {
     const user = { name : username }
     // also need to collect password
     // and compare with hash in db
-    async function checkUser(user, password) {
-        // would need to grab hash from db
-        const match = await bcrypt.compare(password, testHash)
+    // would need to grab hash from db
+    const db_hash = await sql`
+        SELECT password 
+        FROM users
+        WHERE username = ${username}
+    `
+    const match = await bcrypt.compare(password, db_hash)
 
-        // login
-        if(match) {
-            // signing new jwt
-            const accessToken = generateAccessToken(user)
-            // manually handle expiration of refresh token
-            const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-            // login will generate a access & refresh token
-            // for testing, prod would put this in db
-            refreshTokens.push(refreshToken)
-            return res.json({accessToken : accessToken, refreshToken : refreshToken})
-        }
+    // login
+    if(match) {
+        // signing new jwt
+        const accessToken = generateAccessToken(user)
+        // manually handle expiration of refresh token
+        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+        // login will generate a access & refresh token
+        // for testing, prod would put this in db
+        // refreshTokens.push(refreshToken)
+        const db_user = await sql`
+            INSERT INTO users (
+                refresh_token
+            ) VALUES (
+                ${refreshToken}
+            )
 
-        return res.sendStatus(403)
+            returning *
+        `
+        if (!db_user)
+            return res.sendStatus(404)
+
+        return res.json({accessToken : accessToken, refreshToken : refreshToken})
     }
 
-    return checkUser(user, password)
+    return res.sendStatus(403)
 })
 
 /*
 Logs user out by deleting refresh token from "db", revoking auth
 */
-router.delete('/logout', (req, res) => {
+router.delete('/logout', async (req, res) => {
     // would delete from a db in prod
-    refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+    // refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+    const result = await sql`
+        UPDATE users
+        SET refresh_token = NULL
+        WHERE refresh_token = ${req.body.token}
+    `
+    if (!result)
+        return res.sendStatus(404)
     res.sendStatus(204)
 })
 
