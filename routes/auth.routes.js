@@ -2,13 +2,12 @@ require('dotenv').config()
 const express = require('express')
 const router = express.Router()
 
+const sql = require('../database/client.js')
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
 // the longer the harder to break, but consumes time
 const saltRounds = 1
-const testHash = "$2b$10$sYxy7cOwxKLc9JYt/Bb7SeDx80esqT34z7tpo5EtK4zIGExiULFwe"
 // Would come from db in prod
-let refreshTokens = []
 
 /*
 Takes username and password from req.body params.
@@ -65,7 +64,6 @@ router.post('/signup', (req, res) => {
     bcrypt.hash(password, saltRounds, function(err, hash) {
         // Store hash and user in your password DB.
         if (err) return res.sendStatus(500)
-        res.json({username, hash})
 
         async function createUser() {
             try {
