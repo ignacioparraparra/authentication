@@ -2,9 +2,6 @@ require('dotenv').config()
 const { sql } = require("../database/client")
 const express = require('express')
 const router = express.Router()
-const { sql } = require('../database/client')
-
-const sql = require('../database/client.js')
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
 // the longer the harder to break, but consumes time
