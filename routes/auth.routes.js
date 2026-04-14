@@ -67,6 +67,23 @@ router.post('/signup', (req, res) => {
         // Store hash and user in your password DB.
         if (err) return res.sendStatus(500)
         res.json({username, hash})
+
+        async function createUser() {
+            try {
+                await sql `
+                INSERT INTO users (name, password) VALUES (${username}, ${hash})
+                RETURNING name`       
+                return res.send('User Created');
+            } catch (err) {
+                if (err.code === '23505') {
+                    return res.send('Username Taken')
+                } else {
+                    return res.send(err);
+                }
+            }
+        }
+
+    createUser();
     });
 })
 
