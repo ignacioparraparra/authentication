@@ -5,7 +5,7 @@ const router = express.Router()
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
 // the longer the harder to break, but consumes time
-const saltRounds = 1
+const saltRounds = 10
 // Would come from db in prod
 
 /*
@@ -128,7 +128,7 @@ router.post('/token', async (req, res) => {
 Generates new access token, short lived
 */ 
 function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1m'})
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '10m'})
 }
 
 module.exports = router

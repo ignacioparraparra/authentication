@@ -16,7 +16,15 @@ async function initializeDb() {
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
     refresh_token TEXT
+  )
+  `
+  await sql `CREATE TABLE IF NOT EXISTS posts (
+  id SERIAL NOT NULL PRIMARY KEY,
+  caption TEXT,
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+  user_id INTEGER NOT NULL REFERENCES users(id)
   )`
+  console.log("Initializing Complete")
 }
 
 module.exports = {sql, initializeDb};

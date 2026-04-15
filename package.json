@@ -2,7 +2,7 @@
   "name": "authentication",
   "version": "1.0.0",
   "description": "Basic implementation of authentication for a node js backend",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
@@ -27,6 +27,6 @@
     "postgres": "^3.4.9"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.14"
   }
 }
